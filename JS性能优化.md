@@ -40,6 +40,7 @@
 ##Others
 
   webpack与requirejs区别
+  
     1. 
       首先，Webapck的模块加载器在编译阶段就已经将依赖分析好了， 而RequireJS的依赖顺序需要在浏览器端才能得到解析，所以Webpack的调用速度比RequireJS要快，因为依赖都是按照索引存储在数组中的，全闭包贮存，通过id可以直接得到引用
 
