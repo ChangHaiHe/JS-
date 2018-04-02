@@ -55,8 +55,8 @@
 							n // { a: 3, b: 4 }
 				合并两个对象
 
-
-##Class
+----------
+## Class
 	理解:
 		Class 定义一个类
 		constructor() 是构造方法	
@@ -148,14 +148,129 @@ Class的继承
 		p2.__proto__.__proto__.printName = function() { console.log('Ha') };
 		p1.priName() // 'Ha'
 
+----------
 
+## Promise
 
+理解:
+  Promise是一个对象，用来传递异步操作的消息
+  三种状态 Padding（进行中）
+          Resolved（已完成，又称Fulfilled）
+          Reject（已失败）
+  缺点: 一旦新建，立即执行，无法取消
+        处于Pending状态，无法得知进展到哪个阶段
 
+  1. then
+    * 定义在Promise.prototype上的
+    * 方法可以接受两个回调函数作为参数, 第一个是成功回调，第二个是失败回调
+    * 作用是为Promise实例添加改变时的回调函数.
+    * 返回的是一个新的Promise实例(注意: 不是原来那个Promise实例)
 
+  2. catch
+    * 制定发生错误时的回调
+    ```javascript
+      p.then((val) => console.log('fullfilled', val))
+       .catch((err) => console.log('rejected:', err));
 
+      // 等同于
 
+      p.then((val) => console.log('fullfilled', val))
+       .then(null, (err) => console.log('rejected:', err));
 
+    ```
+    * 一般不要在then方法中定义Rejected状态的回调函数(即then的第二个参数),而应该总使用catch方法
+    ```javascript
+      promise
+        .then(function(data) {
+           console.log('success');
+        })
+        .catch(function(err) {
+          console.log('err');
+        })
+    ```
+    * catch方法返回的还是一个Promise对象，因此后面还可以接着调用then方法
 
+  3. Promise.all()
+    * 用于将多个Promise实例包装成一个新的Promise实例
+    > var p = Promise.all([p1,p2,p3]);
+      1. 当p1,p2,p3状态都变成已完成(Fullfilled), P的状态才会变成Fullfilled, 此时p1,p2,p3的返回值组成一个数组，传递给p的回调
+      2. 只要p1,p2,p3中有一个被Rejected，P的状态就变成Rejected, 此时第一个被Rejected的实例的返回值会被传递给p的回调
+      ```javascript
+        
+        var promise = [2,3,4,5,7,11,13].map((id) => {
+          return getJson("/post/"+id+".json");
+        });
+
+        Promise.all(promise).then((posts) => {
+          ...
+        }).catch((reason) => {
+          ...
+        })
+
+      ```
+    * 该方法接受一个数组作为参数(实际上是只要具有Iterator接口的都可以), p1,p2,p3都是Promise的实例, 如果不是实例，则先调用Promise.resolv()将参数转化为Promise实例
+    
+  4. Promise.race()
+    * 同样是将多个Promise实例包装成一个新的Promise实例
+    > var p = Promise.all([p1,p2,p3]);
+      1. p1,p2,p3中有一个率先改变状态,p的状态就跟着改变。那个率先改变的Promise实例的返回值，就传递给p的回调函数。
+
+    * 参数与Promise.all方法一样，如果不是Promise实例，也先调用Promise.resolve方法，然后进一步处理
+
+  5. Promise.resolve()
+    > Promise.resolve('foo')
+    // 等价
+    new Promise(resolve => resolve('foo'))
+
+    * 该方法的参数不是具有then方法的对象(又称thenable对象), 则返回一个新的Promise对象，且状态为Resolved
+  
+  6. Promise.reject()
+    > Promise.reject(reason)方法也会返回一个新的Promise实例,状态为Rejected. Promise.reject方法的参数reason会被传递给实例的回调函数
+  
+两个有用的附加方法
+  7. done()
+    > 总是处于回调链的尾端, 保证跑出任何可能出现的错误.
+
+    asyncFunc()
+      .then(f1)
+      .catch(f2)
+      .then(f2)
+      .done();
+
+    其实现代码
+    ```javascript
+      Promise.prototype.done = function (onFulfilled, onRejected) {
+        this.then(onFullfilled, onRejected).catch((reason) => {
+           <!-- 抛出一个全局错误 -->
+           setTimeout(() => { throw reason}, 0)
+        });
+      };
+
+    ```
+
+  8. finally()
+    > 不管对象最后状态如何都会执行的操作。
+    与done最大的区别: 它接受一个普通的回调函数作为参数， 该函数不管怎样都会必须执行
+    
+    eg: 
+      // 服务器使用Promise处理请求, 然后使用finally方法关掉服务器
+      server.listen(0)
+        .then(function() {
+          ...
+        })
+        .finally(server.stop);
+
+    实现原理
+    ```javascript
+      Promise.prototype.finally = function (callback) {
+        let P = this.constructor;
+        return this.then(
+          value => P.resolve(callback()).then(() => value),
+          reason => p.resolve(callback()).then(() => { throw reason })
+        );
+      };
+    <!-- 无论Promise是Fulfilled还是Rejected,都会执行回调函数callback -->
+    ```
 
 
 
