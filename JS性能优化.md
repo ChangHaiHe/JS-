@@ -1,6 +1,6 @@
 ## JS性能优化
 
-
+### 一
 代码层面的优化手段
 
   变量提升
@@ -37,6 +37,63 @@
         通过cache 和 HappyPack的手段可充分利用cpu资源，加快打包速度。
 
 
+### 二
+  ##### 谨慎使用闭包
+    闭包会造成更多的内存开销，同时IE下还会造成内存泄露。
+
+  ##### 缓存对象成员(减少使用全局变量)
+    在同一个函数中，如果存在多次读取同一个对象成员，可以在局部函数中保存对象，减少查找。
+  ```javascript
+    function getWindowWH() {
+      var elBody = document.getElementsByTagName('body')[0];
+        return {
+          width: elBody.offsetWidth,
+          height: elBody.offsetHeight
+      }
+    }
+  ```
+
+  ##### 减少DOM 操作
+  ```javascript
+    function innerHTMLLoop() {
+      var content = '';
+      for (var count = 0; count < 10000; count++){
+          content += 'a';
+      }
+      document.getElementById("idName").innerHTML += content;     
+    }
+
+  ```
+  ##### 重绘(repaints)与重排(reflows) -> 使用文档碎片
+    当页面布局和几何属性改变时就需要＂重排＂
+    避免在修改样式的过程中使用 offsetTop, scrollTop, clientTop, getComputedStyle() 这些属性, 它们都会刷新渲染队列
+    > 最小化重绘和重排, 尽量一次处理
+      使元素脱离文档流(隐藏元素)
+      使用 documentFragment
+      将原始元素拷贝到一个脱离文档的节点中, 修改副本, 完成后再替换原始元素)
+
+  ##### 避免使用构造器 eval() Function()
+
+  ##### 事件委托
+    当有很多元素需要绑定事件的时候，我们一个一个的去绑定事件是有代价的的，元素越多应用程序越慢。事件绑定不但占用了处理时间，并且追踪事件需要更多的内存，有时候很多元素是不需要，或者是用户不会点击的，所以我们需要使用事件委托来解决没有必要的资源消耗。
+    例子： 我们需监听li的click事件，通过冒泡事件来获取点击的对象。
+
+    ```javascript
+      <ul>
+          <li index='1'>1</li>
+          <li index='2'>2</li>
+          <li index='3'>3</li>
+      </ul>
+
+      var ul = document.getElementById('ul');
+      ul.addEventListener('click', function(e) {
+        var now_index = e.target.getAttribute('index');
+        ...
+      })
+
+    ```
+
+
 ## Others
 
   webpack与requirejs区别
@@ -62,4 +119,5 @@
 
 
 ##相关文档
-参考:https://yj1028.me/article/%7BJS%7D%20Javascript%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html?t=1508304605465
+参考:[{JS} Javascript 性能优化](https://yj1028.me/article/%7BJS%7D%20Javascript%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html?t=1508304605465)
+[JS 一些优化性能的小细节](https://juejin.im/post/58fdcdc31b69e60058a29444)
