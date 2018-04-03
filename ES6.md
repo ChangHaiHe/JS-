@@ -273,6 +273,82 @@ Class的继承
     ```
 
 
-## Array
+## 数组的扩展
+
+Array.from()
+  > 将两类对象转为真正的数组: 类似数组的对象 || 可遍历(有iterable)的对象(包括数据结构Set和Map)
+  > 接收第二个参数, 作用类似于数组的map方法, 用来对每个元素进行处理, 将处理后的值放入返回的数组.
+  ```javascript
+    Array.from(arrayLike, x => x * x);
+    // 等价
+    Array.from(arrayLike).map(x => x * x);
+
+    Array.from([1,2,3]).map(x => x * x); // [1,4,9]
+    
+  ```
 
 
+  document.querySelectorAll() 返回一个类似数组的对象
+
+所谓类似数组的对象, 本质特征只有一点，必须有length属性.
+
+Array.of()
+  > 将一组值转换为数组
+  > Array.of(3,11,8) // [3,11,8]
+
+
+数组实例的find() 和 findIndex()
+
+  find:
+    > 实例的find方法，用于招数第一个复合条件的数组成员
+      参数是一个回调函数，所有数组成员依次执行该回调函数，知道找出第一个返回值为true的成员，返回该成员
+
+    [1,4,-5,10].find((n) => n < 0) // -5
+
+  findIndex:
+    > 返回第一个符合条件的数组成员的位置,所有成员都不符合条件，则返回-1.
+    [1,5,10,15].findIndex(function(value, index, arr) {
+      return value > 9
+    })
+    // 2
+
+    另外
+      [NaN].indexOf(NaN) // -1
+      [NaN].findIndex(y => Object.is(NaN, y)) // 0
+
+数组的fill()
+  
+  fill
+    > 用于填充数组
+    ['a','b','c'].fill(7)  // [7,7,7]
+    
+    理解: 
+      用于空数组的初始化很方便
+      还可以接受第二个第三个参数,用于指定填充的起始位置和结束位置
+        eg: ['a','b','c'].fill(7,1,2) // ['a',7,'b']
+
+    
+数组实例的 includes()
+
+  Array.prototype.includes()
+    [1,2,3].includes(2) // true
+    [1,2,3].includes(4) // false
+
+    [NaN].indexOf(NaN) // -1
+    [NaN].includes(NaN) // true
+
+
+数组的空位
+
+  ES6明确将空位转换为 undefined
+
+  for...of 会遍历空位
+  eg: 
+    let arr = [,,];
+    for(let i of arr) {
+      console.log(1)
+    }
+    // 1
+    // 1
+  entries() 遍历键值对
+  [...[,'a'].entries()] // [[0, undefined], [1, 'a']]
