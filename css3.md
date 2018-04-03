@@ -14,21 +14,18 @@
 			align-items:center; //垂直居中
 		}
 	方案三：
-		.detailTitle{
-			width:100%;
-			font-weight: bold;
-			min-height:@defaultHeaderHeight;
-			background: #F5F5F5;
-			display:table;
-			span{
-				width:100%;
-				display:table-cell;
-				vertical-align:middle;
-				line-height:1;
-				font-size:@defaultTextSize - 5px;
-				text-align: center;
-			}
-		}
+		postion: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -(0.5 * 自身高度)px;
+        margin-left: -(0.5 * 自身宽度)px;
+
+  方案四:
+    用表格
+
+
+
+    
 	
 	超过字数...
 		.fn-text-overflow {
@@ -275,4 +272,3 @@ calc()
 
 
 ## 动画
-  
