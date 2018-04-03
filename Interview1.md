@@ -41,7 +41,7 @@ DOM事件中target和currentTarget的区别
 
 怎么解决跨域的。以及后续JSONP的原理和实现以及cors怎么设置。
   JSONP的原理以及cors怎么设置，自己实践
-
+    
 说一下深拷贝的实现原理
   JSON.stringify和JSON.parse的实现(这种实现的缺点: 非标准JSOn格式无法拷贝以及兼容性问题)
   尾递归实现深拷贝的原理
