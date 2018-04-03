@@ -29,7 +29,8 @@ HTTP协议、事件委托机制、CSS居中、CSS深入
 
 
 
-
+## 其他相关
+  [前端面试题整理](https://www.jianshu.com/p/feab89b88d6b)
 
 
 
