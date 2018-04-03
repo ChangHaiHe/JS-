@@ -20,7 +20,7 @@ less、sass、stylus这种预处理器；
 类和继承（es5实现方法 + es6实现方法）；
 let、const、var；
 promise；
-异步处理方法；<a href="asyncSolue">处理方法</a>
+异步处理方法
 写一个方法遍历所有文档树所有节点(考察递归)；
 cookie和webstorege；
 jsonp和跨域；
