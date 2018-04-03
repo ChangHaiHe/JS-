@@ -1,0 +1,64 @@
+
+# Html5
+
+## HTML5 Web 存储
+
+localStorage sessionStorage
+相同API
+  * localStorage.setItem(key,value);
+  * localStorage.getItem(key);
+  * localStorage.removeItem(key);
+  * localStorage.clear();
+  * localStorage.key(index);
+
+
+## 新特性
+
+  用于绘画的 canvas 元素
+  用于媒介回放的 video 和 audio 元素
+  对本地离线存储的更好的支持
+  新的特殊内容元素，比如 article、footer、header、nav、section
+  新的表单控件，比如 calendar、date、time、email、url、search
+
+
+
+## canvas
+
+  属性：
+    * getContext
+    * fillStyle
+    * fillRect
+    * moveTo
+    * lineTo
+
+```javascript
+  var c=document.getElementById("myCanvas");
+  var ctx=c.getContext("2d");
+  ctx.moveTo(0,0);
+  ctx.lineTo(200,100);
+  ctx.stroke();
+```
+
+  画圆
+    arc(x,y,r,start,stop)
+      画布的左上角坐标为0,0
+        x：圆心在x轴上的坐标
+        y：圆心在y轴上的坐标
+        r：半径长度
+        start：起始角度，以弧度表示，圆心平行的右端为0度
+        stop：结束角度，以弧度表示
+        注意：Math.PI表示180°，画圆的方向是顺时针
+```javascript
+  var c=document.getElementById("myCanvas");
+  var ctx=c.getContext("2d");
+  ctx.beginPath();
+  ctx.arc(95,50,40,0,2*Math.PI);
+  ctx.stroke();
+```
+
+
+
+
+
+
+
