@@ -20,7 +20,7 @@ less、sass、stylus这种预处理器；
 类和继承（es5实现方法 + es6实现方法）；
 let、const、var；
 promise；
-异步处理方法；<a href="asyncSolue" />
+异步处理方法；<a href="asyncSolue">处理方法</a>
 写一个方法遍历所有文档树所有节点(考察递归)；
 cookie和webstorege；
 jsonp和跨域；
@@ -29,7 +29,7 @@ sort排序相关(注意ascll这个坑)
 String + Array的一些基本操作；
 写一个数组去重的方法；
 冒泡和捕获；
-事件代理；
+[事件代理](https://www.cnblogs.com/liugang-vip/p/5616484.html)
 this相关(注意箭头函数的this指向问题)；
 call、apply、bind；
 变量提升；
