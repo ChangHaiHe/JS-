@@ -25,7 +25,7 @@
 
 
 
-    
+
 	
 	超过字数...
 		.fn-text-overflow {
@@ -135,13 +135,15 @@ div {
 
 `box-sizing`属性在一个元素的 width 和 height 中包含 padding(内边距) 和 border(边框)。
   1. 不使用 box-sizing
-    实际宽: width(宽) + `padding(内边距)` + `border(边框)` = 元素实际宽度 
+    实际宽: width(宽) + `padding(内边距)` + `border(边框)` = 元素实际宽度
     实际高: height(高) + `padding(内边距)` + `border(边框)` = 元素实际高度
     结论: 元素真实展示的高度与宽度会更大(因为元素的`边框`与`内边距`也会计算在 width/height 中)。
   2. 使用 box-sizing: border-box;
     padding(内边距) 和 border(边框) 也包含在 width 和 height 中
     ps: 另外在设置padding的时候实际宽度就不再计算padding和border的宽度
 
+  结论: 
+    IE盒模型和W3c盒模型的区别主要是: IE的盒模型宽不包括padding和border, 而W3C的标准盒模型宽包括padding和border
 
 ##弹性盒模型
 

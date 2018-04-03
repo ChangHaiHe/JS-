@@ -20,7 +20,7 @@ less、sass、stylus这种预处理器；
 类和继承（es5实现方法 + es6实现方法）；
 let、const、var；
 promise；
-异步处理方法；
+异步处理方法；<a href="asyncSolue" />
 写一个方法遍历所有文档树所有节点(考察递归)；
 cookie和webstorege；
 jsonp和跨域；
@@ -60,6 +60,11 @@ Map和Set；
 设计一个mvvm框架需要注意的case；
 源码阅读相关；
 ......
+
+
+## 项目相关
+
+
 
 
 

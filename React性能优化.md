@@ -19,4 +19,6 @@ React的性能优化就是围绕shouldComponentUpdate方法（SCU）来进行的
 (PS: TodoItem中的SCU方法，使用的是浅比较，也可以使用PureComponent代替。实际项目中，往往需要使用复杂的深比较，可以考虑使用Immutable.js)
 
 
-
+## 其他相关
+[React性能优化——代码篇](https://wulv.site/2017-07-02/react-perf-code.html)
+[React 性能优化大挑战：一次理解 Immutable data 跟 shouldComponentUpdate](http://web.jobbole.com/93614/)

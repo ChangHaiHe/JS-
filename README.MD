@@ -41,6 +41,7 @@ Promise
 
 ## redux
 
+[解析 Redux 源码](https://qiutc.me/post/read-the-source-code-of-Rudex.html)
 
 
 
