@@ -29,11 +29,11 @@
 * git log --oneline --decorate --graph --all 查看提交历史, 分支指向以及项目分支分叉情况
 * git merge branch-name 将branch-name合并到当前分支上
 
-  > 比如，现在总共有 master, a, b, c三个分支，
+  > 比如，现在总共有 master, a, b, c三个分支
 
-   * 此时正处于b分支上:
+    此时正处于b分支上:
       git merge master则表示将master分支合并到b分支上
-   * 此时正处在master分支上:
+    此时正处在master分支上:
       git merge b则表示将b分支合并到master分支上
 * git push [remote] [branch] 推送分支到远程仓库
 
