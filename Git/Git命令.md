@@ -30,10 +30,11 @@
 * git merge branch-name 将branch-name合并到当前分支上
 
   > 比如，现在总共有 master, a, b, c三个分支，
-    此时正处于b分支上:
-      > git merge master则表示将master分支合并到b分支上
-    此时正处在master分支上:
-      > git merge b则表示将b分支合并到master分支上
+
+  * 此时正处于b分支上:
+    >  git merge master则表示将master分支合并到b分支上
+  *  此时正处在master分支上:
+    >  git merge b则表示将b分支合并到master分支上
 * git push [remote] [branch] 推送分支到远程仓库
 
   > git push origin master 将本地分支推送到远程master分支上(前提是本地是在master分支下push的)
