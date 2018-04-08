@@ -1,3 +1,7 @@
+
+# Git常用命令
+ ![](https://upload-images.jianshu.io/upload_images/3985563-c7f05348b711ebbe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700)
+
 ## 本地分支管理
 
 * git branch 查看当前本地有多少分支
