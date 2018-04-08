@@ -16,10 +16,10 @@
 ## 远程分支管理
 
 * git push origin --delete branch-name 删除远程分支
-* git branch -a 查看所有远程分支
+* git branch -d branch-name 删除本地分支
 
 ## 分支切换
-* git branch 查看当前所在的分支
+
 * git checkout branch-name 切换分支
 * git checkout -b branch-name 创建分支并切换到新分支上, 同时，如果远程有同样的分支名，自动跟踪远程分支
 
@@ -27,7 +27,24 @@
     在本地分支e 上开发完事, add 和 commit之后直接 git push origin e
 
 
+## 常用
 
+  * git branch 列出`所有本地分支`
+  * git branch -r 列出`所有远程分支`
+  * git branch -a 列出`所有本地`分支和`远程`分支
+  * git log 显示当前分支的版本历史
+  * git diff 显示暂存区和工作区的差异 (在"git add ."之前"git diff")
+  * git diff HEAD 显示工作区与当前分支最新commit之间的差异
+
+## 回滚
+
+  * git reset --hard HEAD 让工作区回到上次提交时的状态
+  
+  > git log 之后看哈希值, 比如: commit 95ec9f57e0a1d9b4c03a6345d4859130bd499337
+    需要回到这个版本, 就git reset --hard 95ec -> success
+
+[git reset revert 回退回滚取消提交返回上一版本](http://yijiebuyi.com/blog/8f985d539566d0bf3b804df6be4e0c90.html)
+ 
 ## 其他相关
 
 * git log --oneline --decorate --graph --all 查看提交历史, 分支指向以及项目分支分叉情况
