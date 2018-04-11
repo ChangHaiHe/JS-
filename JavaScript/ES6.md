@@ -23,8 +23,7 @@
 		Object.assign() 只复制自身可枚举属性
 		Reflect.enumerate() 返回所有for...in 循环会遍历的属性
 		所有Class的原型的方法都是不可枚举的
-
-
+	
 	属性的遍历
 		for...in
 		Object.keys()
@@ -32,7 +31,7 @@
 		Object.getOwnPropertySymbols(obj) 返回一个数组，包含所有Symbol属性
 		Object.ownKeys(obj) 返回一个数组, 返回自身所有属性
 		Reflect.enumerate(obj) 返回一个Iterator对象, 遍历自身继承和所有可枚举属性,不含Symbol属性,与for...in相同
-
+	
 	__proto__ 用来读取或设置当前对象的prototype对象
 	Object.setPrototypeOf() (写操作) 与__proto__相同,用于设置一个对象的prototype对象(ES6正式推荐设置原型对象的方法)
 		Object.setPrototypeOf(obj, prototype) eg: Object.setPrototypeOf({}, null);
@@ -40,7 +39,7 @@
 	Object.create() (生成操作)
 	
 	__proto__调用的是 Object.prototype.__proto__
-
+	
 	对象的扩展运算符
 		Rest参数
 			理解:
@@ -119,7 +118,7 @@ Class的继承
 						}
 	Object.getPrototypeOf(ColorPoint) === Point // true
 	ps: 可从子类上获取父类, 因此可以用来判断一个类是否继承了另一个类
-
+	
 	思考其他:
 		function test () {}
 		test.__proto__ === Function.prototype // true
@@ -382,7 +381,7 @@ NaN 等于自身
 
 
 
-### 属性和方法
+#### 属性和方法
 
 ```
 Set.prototype.constructor

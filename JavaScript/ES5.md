@@ -174,10 +174,14 @@
 				concat() 'hello '.concat('world'); // 'hello world'
 				+	 'hello ' + 'world' // 'hello world'
 
-				slice()
-				substr()
-				subString()
+				slice()     (下标开始, 下标之前) 'abcdefgh'.slice(2,5) 返回 "cde"
+				substr()    (下标开始, 下标结束-截取个数) 'abcdefgh'.substr(2,5) 返回 "cdefg"
+				subString() (下标开始, 下标之前) 'abcdefg'.substring(2,5) 返回"cde"
 
+        区别:
+          substring是以两个参数中较小一个作为起始位置，较大的参数作为结束位置。
+            'abcdefg'.substring(5,2) 返回 'cde'
+          接收负数时候都有区别，且IE对substr接收负值的处理有错，它会返回原始字符串。(很少见到接收负数的，暂时不做具体区别)
 			位置方法
 				indexOf()
 				lastIndexOf()
@@ -194,7 +198,7 @@
 				match() 只接收一个参数, 正则表达式 or RegExp对象，返回一个数组
 				search() 参数与match参数相同，返回字符串中第一个匹配项的索引，如果没有返回-1 eg: 'cat, bat, sat, fat'.search(/at/); // 1
 				replace() 接收2个参数 第一个参数RegExp对象 or 字符串,第二个参数字符串 or 函数
-				split() 基于指定分隔符将字符串分割成多个子字符串，并将结果放在一个数组中, 分隔符可以是字符串 or RegExp对象， 可以接收第二个参数指定数组大小
+				split() 基于指定分隔符将字符串分割成多个子字符串，并将结果放在一个数组中, 分隔符可以是字符串 or RegExp对象， 可以接收第二个参数指定数组大小,不改变原数组
 
 				localeCompare() 比较两个字符串,返回 -1 0 1;
 						'b'.localeCompare('c'); // -1
