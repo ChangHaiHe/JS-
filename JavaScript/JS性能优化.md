@@ -124,3 +124,4 @@
 ##相关文档
 参考:[{JS} Javascript 性能优化](https://yj1028.me/article/%7BJS%7D%20Javascript%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html?t=1508304605465)
 [JS 一些优化性能的小细节](https://juejin.im/post/58fdcdc31b69e60058a29444)
+[Yahoo团队经验：网站性能优化的34条黄金法则](http://www.ha97.com/2710.html)
