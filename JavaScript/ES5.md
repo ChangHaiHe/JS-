@@ -223,3 +223,352 @@
 			random()
 			
 
+
+
+# 事件
+
+Javascript和HTML之间的交互是通过事件实现的
+## 事件流
+
+从页面接收事件流的顺序
+### 事件冒泡
+
+IE事件流叫做事件冒泡
+### 事件捕获
+
+老版本浏览器不支持，有特殊需求再用。
+
+## DOM事件流
+
+事件捕获阶段
+处于目标阶段
+事件冒泡阶段
+
+### 事件处理程序
+
+响应某个事件的函数叫事件处理程序（或事件监听）
+
+DOM0级事件处理程序 -> 元素的方法 this引用当前元素
+
+DOM2级事件处理程序 -> addEventListener() removeEventListener()
+接收3个参数，要处理的事件名、事件处理的程序、布尔值(true->捕获,false->冒泡)
+```javascript
+var btn = document.getElementById('myBtn');
+btn.addEventListener("click", function(){
+  alert(this.id);
+},false)
+```
+### IE事件处理程序
+
+attachEvent() datachEvent()
+接收2个参数，事件名称、事件处理函数
+```javascript
+btn.addEventListener("click", function(){
+btn.attachEvent("onclick", function(){
+  alert('clicked')
+})
+```
+```
+IE中使用attachEvent()与使用DOM0级方法的主要区别是事件处理程序的作用域
+在使用DOM0级方法-> 事件处理程序会在其所属元素的作用域内运行，
+在使用attachEvent()方法 -> 事件处理程序会在全局作用域中运行，this === window (ps: 事件对象也在window window.event)
+```
+
+### 两者特点
+
+都能添加多个处理程序，IE事件处理程序先处理后面的函数
+
+### 跨浏览器的事件处理程序 (兼容写法)
+
+P354 JavaScript高级程序设计
+```javascript
+var EventUtil = {
+  addHandler: function(element, type, handler) {
+    if (element.addEventListener) {
+      element.addEventListener(type, handler, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + type, handler);
+    } else {
+      element["on" + type] = handler;
+    }
+  },
+  removeHandler: function(element, type, handler) {
+    if (element.addEventListener) {
+      element.removeEventListener(type, handler, false);
+    } else if (element.attachEvent) {
+      element.detachEvent('on' + type, handler);
+    } else {
+      element["on" + type] = null;
+    }
+  }
+}
+
+```
+
+### 事件对象
+
+#### DOM事件对象 e
+
+e.bubbles 事件是否冒泡
+e.stopProgapation() 取消事件进一步捕获或冒泡 bubbles为true可以使用
+e.cancelable 是否取消事件默认行为
+e.preventDefault() 取消事件默认行为 cancelable为true可以使用
+e.target 事件目标
+
+阻止链接跳转 -> preventDefault
+处理按钮 -> stopProgapation
+
+### IE中的事件对象
+
+window.event
+
+cancelBubble 默认值false, 设置为true可以取消事件冒泡 -> stopProgapation
+returnValue 默认值true，设置为false可以取消事件默认行为 -> preventDefault
+srcElement 事件的目标 -> target
+
+
+window.event.srcElement === this
+
+### 跨浏览器的事件对象(事件对象兼容)
+
+```javascript
+var EvenUtil = {
+  getEvent: function(event) {
+    return event ? event || window.event
+  },
+  getTarget: function(event) {
+    return event.target || event.srcEvent;
+  },
+  preventDefault: function(event) {
+    if (event.preventDefault) {
+      event.preventDefault();
+    } else {
+      event.returnValue = false;
+    }
+  },
+  stopPropagation: function(event) {
+    if (event.stopPropagation) {
+      event.stopPropagation()
+    } else {
+      event.cancelBubble = true;
+    }
+  }
+}
+
+```
+
+### 事件类型
+
+load
+  1. 页面完全加载完后在window上触发
+  2. 所有框架都加载完毕时在框架集上触发
+  3. 当图像加载完毕时在<img>上触发
+  4. 当嵌入内容加载完毕时在<object>元素上触发
+
+  5. 一些非标准方式支持load, script元素触发load以便开发人员确定动态加载Javascript文件是否完毕 (ie9+支持)
+  
+unload
+  1. 文档被完全卸载后触发
+  2. 用户从一个页面切换到另一个页面触发
+  这个时间最多的的情况是清除引用，避免内存泄漏
+
+
+resize
+  窗口调整到一个新的高度或宽度触发 ie9+支持
+
+scroll
+  在window上触发，实际表示的是页面中相应元素的变化
+  混杂模式下，通过body元素的scrollLeft和scrollTop来监控
+
+blur
+  失去焦点 不冒泡
+
+focus
+  获得焦点 不冒泡
+
+### 鼠标与滚轮事件
+
+mousedown
+  任意鼠标按钮按下触发，不能通过键盘触发
+
+mouseleave
+  元素上方的光标 -> 元素范围外触发 不冒泡
+
+mousemove
+  鼠标指针在元素内部移动时触发
+
+mouseout
+  元素上方的光标 -> 移入另一个元素时触发
+
+mouseover
+  光标在元素外部，首次移到另一个元素边界时触发
+
+mouseenter mouseleave
+  鼠标事件都会冒泡，也都可以被取消
+
+
+
+## 客户区坐标位置 P370 (相对于整个浏览器)
+
+视口: (能浏览的页面内容,整个浏览器窗口除去属性栏的下面部分)
+clientX 视口水平坐标
+clientY 视口垂直坐标
+
+
+## 页面坐标位置 (相对于整个页面)
+
+pageX
+pageY
+鼠标光标在页面中的位置
+因此，坐标是从页面本身计算
+而非视口的左边和右边计算
+
+页面没有滚动的情况下,
+pageX === clientX
+pageY === clientY
+
+IE8之前版本不支持事件对象上的页面坐标，而是通过使用客户区坐标和滚动信息计算的
+document.body(混杂模式) 或 document.documentElement(标准模式)
+的scrollLeft和scrollTop属性计算
+
+```javascript
+var div = document.getElementById('myDiv');
+EventUtil.addHandler(div,"click", function(event){
+  event = EventUtil.getEvent(event);
+  var pageX = event.pageX;
+      pageY = event.pageY;
+  if (pageX === undefined) {
+      pageX = event.clientX + (document.body.scrollLeft || document.documentElement.scrollLeft);
+  }
+  if (pageY === undefined) {
+    pageY = event.clientY + (document.body.scrollTop || document.documentElement.scrollTop)
+  }
+  alert("Page coordinates:" + pageX + ',' + pageY);
+})
+
+```
+
+## 屏幕坐标位置 (相对于整个电脑屏幕)
+
+screenX 
+screenY
+
+
+## 修改键
+
+
+## 相关元素
+
+mouseover mouseout
+这两个事件都会涉及把鼠标指针从`一个元素`的**边界**移动到`另一个元素`的**边界**之内
+```
+比如，一个例子，页面上显示一个div元素。
+如果鼠标指针一开始位于这个div元素上，然后移出了这个元素，
+那么久会在div元素上触发mouseout事件，相关元素是body元素
+同时，
+body元素上回触发mouseover事件，而相关元素变成了div
+```
+
+### 鼠标按钮
+
+
+## 更多事件信息
+
+offsetX 光标相对于目标元素边界的X坐标
+offsetY 光标相对于目标元素边界的Y坐标
+
+## 键盘与文本事件
+
+keydowm 用户按下键盘上`任意键`触发，按住不放则重复触发此事件 
+keypress  用户按下键盘上`字符键`触发，按住不放则重复触发此事件
+keyup 用户释放键盘上的键触发
+
+三者关系:
+
+用户按了一下键盘上的字符键，
+首先触发keydown,
+接着触发keypress,
+最后触发keyup
+
+keydown和keypress都是在文本框中发生变化之前触发，
+keyup是在文本框已经发生变化之后被触发
+
+如果用户按下一个非字符键，则先触发keydown，然后是keyup
+
+## 键码 p380
+
+发生在keydown和keyup
+event.keyCode = 值(一个代码,与ASCII码中对应的小写字母或数字的编码相同)
+
+## 字符编码
+
+发生在keypress
+
+查编码之用属性 charCode或者keypress
+```javascript
+function (event) {
+  if (typeof event.charCode == 'number' ) {
+    return event.charCode;
+  } else {
+    return event.keypress
+  }
+}
+
+```
+
+## DOM3变化
+
+不再包含charCode属性，新增key、char
+key 取代 keyCode,
+  字符键按下时，key的值就是相应的文本字符，如"k","M"
+  非字符键按下,key值就是相应键的名,如"Shift","Down"
+char
+  字符键按下同key
+  非字符键按下，值为null
+
+IE9支持key，不支持char
+
+综上： 不推荐使用key char
+
+
+## textInput事件(代替keypress)
+
+在可编辑区域中输入字符，就会触发这个事件
+区别
+  1. 任何焦点元素可以触发keypress，但只有可编辑区域才能触发textInput事件
+  2. textInput只有在用户按下能输入实际字符的键才会被触发，
+     keypress事件则是在按下哪些能够影响文本显示的键也会触发(比如退格键)
+
+
+## 变动事件
+
+### 删除节点
+
+removeChild() 或 replaceChild()
+
+### 插入节点
+
+appendChild()、replaceChild()、insertBefore()
+
+
+# 内存和性能
+
+### 事件委托 P402
+
+对事件处理程序过多，解决问题方案就是事件委托。利用事件冒泡，只制定一个事件处理程序，就可以管理某一类型的所有事件，click事件一直会冒到document层次
+
+适合采用事件委托的技术
+  click、mousedown、mouseup、keydown、keyup、keypress
+
+### 移出事件处理程序
+
+每当事件处理程序指定给元素时，运行中的浏览器代码与支持页面交互的Javascript代码之间会建立一个连接。连接越多，页面执行越慢
+在不需要的时候，移出事件处理程序
+
+两种情况会造成上面的问题:
+  1. 文档中移出带有事件处理程序的元素，用到replaceChild,removeChild,innerHTML
+    知道某个元素将被移出，最好是手工处理程序(btn.onclick = null)，
+    或者用事件委托避免这种问题的出现
+  2. 卸载页面的时候。 比如两个页面来回切换，也可能是点击刷新按钮，内存的滞留的对象会增加，因为事件处理程序占用的内存没有被释放。
+    卸载页面前调用onunload移出所有的事件处理程序(onload加载的所有程序都用onunload移出)
+    或者用事件委托技术避免这种问题出现
