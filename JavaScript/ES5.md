@@ -406,7 +406,7 @@ mouseover
 mouseenter mouseleave
   鼠标事件都会冒泡，也都可以被取消
 
-
+--------------------------------华丽的分割线--------------------------------
 
 ## 客户区坐标位置 P370 (相对于整个浏览器)
 
@@ -452,6 +452,81 @@ EventUtil.addHandler(div,"click", function(event){
 
 screenX 
 screenY
+
+
+## 实际开发
+
+clientheight
+![clientheight](https://img-blog.csdn.net/20170207205650930?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ2p1bjUxNTk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+### offsetWidth
+![offsetWidth](https://img-blog.csdn.net/20170207205905401?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ2p1bjUxNTk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+### scrollHeight 
+![scrollHeight](https://img-blog.csdn.net/20170207210025028?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ2p1bjUxNTk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+```javascript
+// 实际开发  整个页面的高度 == 滚动条滚动的高度(当前滚动条位置) + 视口高度
+  getScrollHeight: () => { // (获取的是 整个页面的高度)
+    let scrollHeight = 0;
+    let bodyScrollHeight = 0;
+    let documentScrollHeight = 0;
+    if (document.body) {
+      bodyScrollHeight = document.body.scrollHeight;
+    }
+    if (document.documentElement) {
+      documentScrollHeight = document.documentElement.scrollHeight;
+    }
+    scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+    return scrollHeight;
+  },
+  getWindowHeight: () => { // 浏览器视口的高度
+    let windowHeight = 0;
+    if (document.compatMode === 'CSS1Compat') {
+      windowHeight = document.documentElement.clientHeight;
+    } else {
+      windowHeight = document.body.clientHeight;
+    }
+    return windowHeight;
+  },
+  getPageScroll: () => { // 获取当前滚动条位置 (获取的是整个页面滚动条的当前位置)
+    let x;
+    let y;
+    // debugger;
+    if (window.pageYOffset) {
+      // all except IE
+      y = window.pageYOffset;
+      x = window.pageXOffset;
+    } else if (document.documentElement && document.documentElement.scrollTop) {
+      // IE 6 Strict
+      y = document.documentElement.scrollTop;
+      x = document.documentElement.scrollLeft;
+    } else if (document.body) {
+      // all other IE
+      y = document.body.scrollTop;
+      x = document.body.scrollLeft;
+    }
+    return { X: x, Y: y };
+  },
+  setPageScroll: (y) => { // 设置页面纵向滚动条
+    if (document.body) {
+      // all other IE
+      document.body.scrollTop = y;
+    } else if (document.documentElement && document.documentElement.scrollTop) {
+      // IE 6 Strict
+      document.documentElement.scrollTop = y;
+    } else if (window.pageYOffset) {
+      // all except IE
+      window.pageYOffset = y;
+    }
+  },
+
+```
+### 参考资料
+
+[1](https://www.cnblogs.com/nanshanlaoyao/p/5964730.html)
+[2](https://www.cnblogs.com/momo798/p/5923371.html)
+
+--------------------------------华丽的分割线--------------------------------
 
 
 ## 修改键
