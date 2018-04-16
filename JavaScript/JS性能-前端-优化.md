@@ -125,3 +125,31 @@
 参考:[{JS} Javascript 性能优化](https://yj1028.me/article/%7BJS%7D%20Javascript%20%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96.html?t=1508304605465)
 [JS 一些优化性能的小细节](https://juejin.im/post/58fdcdc31b69e60058a29444)
 [Yahoo团队经验：网站性能优化的34条黄金法则](http://www.ha97.com/2710.html)
+
+
+
+
+## 前端性能优化
+
+1. 尽量减少HTTP请求次数
+  CSS Sprites
+  合并文件是通过把所有的脚本放到一个文件中来减少HTTP请求的方法(css合并)
+2. 减少DNS查找次数 DNS
+3. 避免跳转
+4. 可缓存的AJAX、优化AJAX
+  使用GET来完成AJAX请求
+5. 推迟加载内容 （把样式表置于顶部、JS脚本放在页面的最后）
+5. 预加载 
+6. 减少DOM元素数量
+7. 不要出现404错误
+8. 使用内容分发网络 CDN
+9. 减小Cookie体积
+  * 去除不必要的coockie
+  * 使coockie体积尽量小以减少对用户响应的影响
+  * 注意在适应级别的域名上设置coockie以便使子域名不受影响
+  * 设置合理的过期时间。较早地Expire时间和不要过早去清除coockie，都会改善用户的响应时间。
+
+
+
+
+
