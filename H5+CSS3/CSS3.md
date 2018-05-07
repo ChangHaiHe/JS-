@@ -121,7 +121,7 @@ in	英寸 (1in = 96px = 2.54cm)
 border-radius: 5px 5px 5px 5px;
   四个值: 第一个值为左上角，第二个值为右上角，第三个值为右下角，第四个值为左下角。
 
-box-shadow: 0 4px 15px 0 rgba(31,56,88,.15);
+box-shadow: 10px 10px 5px #888888;
   阴影水平偏移值（可取正负值）； 阴影垂直偏移值（可取正负值）；阴影模糊值；阴影颜色
 
 border-image: url(border.png) 30 30 round;
@@ -136,11 +136,11 @@ div {
 
 
 `box-sizing`属性在一个元素的 width 和 height 中包含 padding(内边距) 和 border(边框)。
-  1. 不使用 box-sizing
+  1. 不使用 box-sizing (W3C -> width是内容的宽度，整个盒子div的宽度还要包括div的padding和border的宽度)
     实际宽: width(宽) + `padding(内边距)` + `border(边框)` = 元素实际宽度
     实际高: height(高) + `padding(内边距)` + `border(边框)` = 元素实际高度
     结论: 元素真实展示的高度与宽度会更大(因为元素的`边框`与`内边距`也会计算在 width/height 中)。
-  2. 使用 box-sizing: border-box;
+  2. 使用 box-sizing: border-box; (IE -> width 是盒子的实际宽度，包括padding和border在内)
     padding(内边距) 和 border(边框) 也包含在 width 和 height 中
     ps: 另外在设置padding的时候实际宽度就不再计算padding和border的宽度
 

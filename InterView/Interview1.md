@@ -1,7 +1,7 @@
 一:
 
 CSS盒模型。
-  E的怪异盒模型和标注浏览器的盒模型 
+  E的怪异盒模型和标注浏览器的盒模型
   通过box-sizing属性控制两种盒模型的变换
 box-sizing的应用场景。
 
@@ -38,6 +38,7 @@ webpack配置用到webpack.optimize.UglifyJsPlugin这个插件，有没有觉得
   expires,Cache-Control,If-none-match,Etag,last-Modified的匹配和特征
 
 DOM事件中target和currentTarget的区别
+  [js事件、事件流以及target、currentTarget、this那些事](https://www.cnblogs.com/54td/p/5936816.html)
 
 怎么解决跨域的。以及后续JSONP的原理和实现以及cors怎么设置。
   JSONP的原理以及cors怎么设置，自己实践
