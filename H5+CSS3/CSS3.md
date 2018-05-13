@@ -1,13 +1,13 @@
 ##CSS3
 	不定宽高垂直居中
-	方案一：
+	方案一： 绝对定位
 		.wraper{
 			position:absolute;
 			top:50%;
 			left:50%;
 			-webkit-transform:translate(-50%,-50%);
 		}
-	方案二：
+	方案二：弹性盒模型
 		.wraper{
 			display:-webkit-flex;
 			justify-content:center; //水平居中

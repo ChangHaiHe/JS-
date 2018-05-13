@@ -17,7 +17,7 @@ less、sass、stylus这种预处理器；
 
 原型链；
 闭包；
-类和继承（es5实现方法 + es6实现方法）；
+类和继承(es5实现方法 + es6实现方法)
 let、const、var；
 promise；
 异步处理方法
