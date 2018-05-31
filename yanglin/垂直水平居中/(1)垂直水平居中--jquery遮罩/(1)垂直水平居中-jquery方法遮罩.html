@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>jquery方法</title>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$("#btn").click(function(){
+					// 点击按钮，弹出框
+					$("#mask").fadeIn();
+				});
+				//给按钮绑定单击事件
+				$("#maskcontent input").each(function(index){
+					$("#maskcontent input:eq("+index+")").click(function(){
+						console.log(index);
+						$("#content").append("<div>您单击了"+(index+1)+"个按钮</div>");
+					});
+			});
+			//关闭遮罩
+				$("#close").click(function(){
+					$("#mask").fadeOut();
+				});
+		})
+		</script>
+		<style type="text/css">
+			body{
+				margin:0px;
+				padding:0px;
+				font:12px/1.5em "微软雅黑";
+			}
+			/*外面的大遮罩,全屏*/
+			.mask{
+				position:absolute;
+				width:100%;
+				height:100%;
+				top:0;
+				left:0;
+				display:none;
+				z-index: 99;
+			}
+			/*遮罩内容*/
+			.mask #maskcontent{
+				text-align:center;
+				background:#fff;
+				position:absolute;
+				width:400px;
+				height:80px;
+				border:2px solid #666;
+				opacity: 0.8;
+				border-radius:10px;
+				left:50%;
+				margin-left:-200px;
+				top:50%;
+				margin-top:-40px;
+			/*	z-index:999;*/
+			}
+			/*遮罩关闭*/
+			#maskcontent span{
+				float:right;
+				margin-right:20px;
+				cursor:pointer;
+			}
+			/*遮罩的背景*/
+			#maskbg{
+				position:fixed;
+				width:100%;
+				height:100%;
+				top:0px;
+				left:0px;
+				opacity:0.3;
+				background:#000;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<input type="button" value="点击遮罩显示"  id="btn" class="btn"/>
+		<!--遮罩-->
+		<div class="mask" id="mask">
+			<!--遮罩背景-->
+			<div id="maskbg"></div>
+			<!--遮罩内容-->
+			<div id="maskcontent">
+				<span id="close">关闭</span><br>
+				<input type="button" name="txt1" id="txt1" value="您单击了第一个按钮" />
+				<input type="button" name="txt2" id="txt2" value="您单击了第二个按钮" />
+				<input type="button" name="txt3" id="txt3" value="您单击了第三个按钮" />
+				<input type="button" name="txt4" id="txt4" value="您单击了第四个按钮" />
+			</div>
+		</div>
+		<div id="content"></div>
+	</body>
+</html>

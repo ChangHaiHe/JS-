@@ -472,6 +472,8 @@ clientheight
 ### scrollHeight 
 ![scrollHeight](https://img-blog.csdn.net/20170207210025028?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvd2FuZ2p1bjUxNTk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
+scrollTop是指某个可滚动区块向下滚动的距离，比如向下滚动了10个像素，那么这个元素的scrollTop属性值就是10；
+
 ```javascript
 // 实际开发  整个页面的高度 == 滚动条滚动的高度(当前滚动条位置) + 视口高度
   getScrollHeight: () => { // (获取的是 整个页面的高度)
