@@ -31,7 +31,7 @@
 				__proto__是存在实例与原型之间
 				isPrototypeOf() 验证实例与原型之间的关系 eg: Person.prototype.isPrototypeOf(person1); // true
 				Object.getPrototypeOf  eg: Object.getPrototypeOf(person1) == Person.prototype; // true
-				hasOwnProperty() 检测属性存在实例还是存在原型,存在实例返回true eg: person1.hasOwnProperty('name'); // true
+				hasOwnProperty() 检测属性存在实例还是存在原型,存在实例返回true eg: person1.hasOwnProperty('name'); // true 实例上存在这个属性
 				for-in 访问可枚举的属性,既包括实例中的属性,也包括原型中的属性(原型中不可枚举的属性无法访问)
 				Object.keys() 访问对象上所有可枚举的实例属性
 			优点: 属性方法能被所有实例共享
@@ -60,7 +60,7 @@
 	4. 原型式继承(基于已有的对象创建新对象)
 	5. 寄生式继承
 		 	理解:
-			 	创建一个仅用于封装继承过程的函数,改函数在内部以某种方式增强对象
+			 	创建一个仅用于封装继承过程的函数,该函数在内部以某种方式增强对象
 	6. 寄生式组合继承
 			
 函数的故事
@@ -183,7 +183,7 @@
 				+	 'hello ' + 'world' // 'hello world'
 
 				slice()     (下标开始, 下标之前) 'abcdefgh'.slice(2,5) 返回 "cde"
-				substr()    (下标开始, 下标结束-截取个数) 'abcdefgh'.substr(2,5) 返回 "cdefg"
+				substr()    (下标开始, 截取个数) 'abcdefgh'.substr(2,5) 返回 "cdefg"
 				subString() (下标开始, 下标之前) 'abcdefg'.substring(2,5) 返回"cde"
 
         区别:
@@ -220,7 +220,7 @@
 			encodeURI() 整个URI(http://www.wrox.com/illegal value.htm)
 			encodeURIComponent() 对非标准字符进行编码
 			decodeURI()
-			decodeURIcomponent()
+			decodeURIComponent()
 
 		eval()
 

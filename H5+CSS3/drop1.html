@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5-Drag-Demo by 顽Shi</title>
+  <style>
+    .column {
+      height: 200px;
+      width: 200px;
+      float: left;
+      border: 1px solid black;
+      background-color: green;
+      margin-right: 5px;
+      text-align: center;
+      cursor: move;
+    }
+    .column header {
+      color: black;
+      text-shadow: #000 0 1px;
+      box-shadow: 5px;
+      padding: 5px;
+      background: red;
+      border-bottom: 1px solid black;
+    }
+    .column.over {
+      border: 3px dashed #000;
+    }
+  </style>
+</head>
+<!--
+
+  出处: https://blog.csdn.net/cxdgood001/article/details/45221389
+
+  ondragstart：被拖放的HTML元素开始拖动时触发该事件。
+  ondrag：被拖放的HTML元素在拖放过程中不断触发该事件。
+  ondragend：被拖放的HTML元素拖放结束时触发该事件。
+  ondragenter：拖放时鼠标经过的元素在被拖放元素进入本元素的范围时触发该事件。
+  ondragover：拖放时鼠标经过的元素在被拖放元素进入本元素的范围拖动时不断触发该事件。
+  ondragleave：拖放时鼠标经过的元素离开本元素时触发该事件。
+  ondrop：拖放时鼠标经过的元素在其他元素被放到本元素时触发该事件。
+
+DataTransfer对象  https://blog.csdn.net/ypq5566/article/details/24263367
+  拖放触发的拖放事件有一个dataTransfer属性，该属性值是一个DataTransfer对象，该对象包含如下属性和方法：
+  dataTransfer.dropEffect：设置或返回拖放目标上允许发生的拖放行为。如果此设置的拖放行为不在effectAllowed属性设置的多种拖放行为之内，拖放操作将会失败。该属性值只允许none、copy、link、move值之一。
+  dataTransfer.effectAllowed：设置或返回被拖动元素允许发生的拖动行为。该属性值可设置为none、copy、copyLink、copyMove、link、linkMove、move、all、uninitialized。
+  dataTransfer.items：该属性返回DataTransferItems对象，该对象代表了拖动数据。
+  dataTransfer.setDragImage(element x,y)：设置拖放操作的自定义图标。其中element设置自定义图标，x设置图标与鼠标在水平方向的距离；y设置图标与鼠标在垂直方向的距离。
+  dataTransfer.addElement(element)：添加自定义图标。
+  dataTransfer.types：该属性返回一个DOMStringList对象，该对象包括了存入dataTransfer中数据的所有类型。
+  setData(sFormat,sData):	将指定格式的数据赋值给dataTransfer或者clipboardData	sFormat:URL,Text
+  dataTransfer.getData(format)：获取DataTransfer对象中设置format格式的数据。其中format代表数据格式，data代表数据。
+  dataTransfer.clearData([format])：清除DataTransfer对象中format格式的数据，如果省略format格式，则意味着清除DataTransfer对象中的全部数据。
+ -->
+<body>
+  <div id="columns">
+    <div class="column" draggable="true"><header>div1</header></div>
+    <div class="column" draggable="true"><header>div2</header></div>
+    <div class="column" draggable="true"><header>div3</header></div>
+  </div>
+</body>
+
+<script>
+  var columns = document.querySelectorAll('#columns .column');
+  var dragEl = null;
+  [].forEach.call(columns,function(column){
+    column.addEventListener("dragstart",domdrugstart,false);
+    column.addEventListener('dragenter', domdrugenter, false);
+    column.addEventListener('dragover', domdrugover, false);
+    column.addEventListener('dragleave', domdrugleave, false);
+    column.addEventListener('drop', domdrop, false);
+    column.addEventListener('dragend', domdrapend, false);
+  });
+
+
+
+  function domdrugstart(e) {
+    e.target.style.opacity = '0.5';
+    dragEl = this;
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/html",this.innerHTML);
+  }
+
+  function domdrugenter(e) { // 在进入区域时触发一次
+    e.target.classList.add('over');
+  }
+
+  function domdrugover(e) { // 在进入区域时反复触发
+    if (e.preventDefault) { // 阻止一些类似超链接拖动跳转的默认动作
+      e.preventDefault();
+    }
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+  }
+
+  function domdrugleave(e) { // 去掉当拖拽鼠标划出区域时,去掉虚线.
+    e.target.classList.remove('over');
+  }
+
+  function domdrop(e) {
+    if (e.stopPropagation) {
+      e.stopPropagation();
+    }
+// 位置互换
+    if (dragEl != this) {
+      dragEl.innerHTML = this.innerHTML;
+      this.innerHTML = e.dataTransfer.getData('text/html');
+    }
+    return false;
+  }
+  function domdrapend(e) { // 拖动结束 透明度变成1
+    [].forEach.call(columns, function (column) {
+      column.classList.remove('over');
+       column.style.opacity = '1';
+    });
+  }
+</script>
+</html>

@@ -15,7 +15,7 @@
 					enumerable: true,
 					configurable: true
 				}
-		
+
 	ES5 忽略 enumerable 为false的属性
 		for...in	遍历自身和继承可枚举属性
 		Object.keys()	返回对象自身所有可枚举属性的键名
@@ -23,7 +23,7 @@
 		Object.assign() 只复制自身可枚举属性
 		Reflect.enumerate() 返回所有for...in 循环会遍历的属性
 		所有Class的原型的方法都是不可枚举的
-	
+
 	属性的遍历
 		for...in
 		Object.keys()
@@ -63,9 +63,9 @@
 		在类的实例上调用方法, 其实就是调用原型上的方法.
 	
 		Object.assign() 可以一次性向类添加多个方法
-	
+
 		类的内部定义的所有方法都是不可枚举的 ES6标准入门第二版P242
-	
+
 		类的属性名可以采用表达式
 
 Class的继承
