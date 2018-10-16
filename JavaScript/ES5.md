@@ -21,7 +21,7 @@
 		value: 'Nicholas'
 	})
 
-创建对象历经的故事
+创建对象
 	1. 工厂模式(创建新对象->返回新对象)
 	2. 构造函数(this) 
 		问题: 无法共享方法
@@ -40,7 +40,7 @@
 	5. 寄生构造函数模式
 	6. 稳妥构造函数模式(不使用this,不使用new)
 
-继承的故事
+继承
 	1. 原型链
 			理解1:
 				默认原型 Object.prototype
@@ -63,7 +63,7 @@
 			 	创建一个仅用于封装继承过程的函数,该函数在内部以某种方式增强对象
 	6. 寄生式组合继承
 			
-函数的故事
+函数
 	1. 递归: 一个函数通过名字调用自身
 		  理解:
 			 arguments.callee 指向正在执行的函数的指针
@@ -90,7 +90,7 @@
 			reserve()、sort()
 		操作方法:
 			concat() 接收参数、一个或多个数组，返回副本.
-			slice() 接收1-2个参数, 返回起始和结束为止之间的项,不包含结束位置,(不影响原数组). 可以接收负数(第二个参数为负数时会将负的参数加上字符串的长度。)，没有返回空数组
+			slice() 接收1-2个参数, 返回起始和结束为止之间的项,不包含结束位置,(不影响原数组). 可以接收负数(第二个参数为负数时会将负的参数加上字符串的长度。)，没有返回空数组(是另一个数组)  eg: [1,2,3,4,5].slice(2,4) // [3,4]
 			splice() 接收2-3个参数, 返回数组中包含原始数组删除的项,没有删除返回[]  接收2个参数表示从起始位置删除+删除的个数.(会改变原数组)
 		位置方法:
 			indexOf()、lastIndexOf() 返回数组下标
@@ -345,16 +345,17 @@ var EvenUtil = {
     return event ? event || window.event
   },
   getTarget: function(event) {
-    return event.target || event.srcEvent;
+    // return event.target || event.srcEvent;  此句应该有误
+    return event.target || event.srcElement;
   },
-  preventDefault: function(event) {
+  preventDefault: function(event) { // 取消事件默认行为
     if (event.preventDefault) {
       event.preventDefault();
     } else {
       event.returnValue = false;
     }
   },
-  stopPropagation: function(event) {
+  stopPropagation: function(event) { // 阻止冒泡
     if (event.stopPropagation) {
       event.stopPropagation()
     } else {
@@ -474,6 +475,7 @@ clientheight
 
 scrollTop是指某个可滚动区块向下滚动的距离，比如向下滚动了10个像素，那么这个元素的scrollTop属性值就是10；
 
+##1111
 ```javascript
 // 实际开发  整个页面的高度 == 滚动条滚动的高度(当前滚动条位置) + 视口高度
   getScrollHeight: () => { // (获取的是 整个页面的高度)
