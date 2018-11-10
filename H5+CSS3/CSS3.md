@@ -63,6 +63,9 @@ offsettop
 
 ### 选择器
 
+参考
+https://blog.csdn.net/qingchurenxiaoyao/article/details/76980472?utm_source=blogxgwz7
+
 `兄弟选择器`
 div+p 选择所有紧接着<div>元素之后的<p>元素
 
