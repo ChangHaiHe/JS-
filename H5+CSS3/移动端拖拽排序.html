@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>排序页</title>
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/sort.css">
+	<link rel="stylesheet" type="text/css" href="css/animation.css">
+</head>
+<body>
+    <div class="nav">
+        <a href="" ></a>
+        <span></span>
+        <p>自定义排序</p>
+    </div>
+    <div id="sort">
+        <p>系统将根据下面排列的顺序制定课程，长按拖动可调换顺序</p>
+        <ul id="foo" class="block__list block__list_words">
+            <li id="uli" class="action-btn">
+                <p>《芳华》</p>
+                <span>严歌苓</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从你的全世界路过》</p>
+                <span>张嘉佳</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从0到1》</p>
+                <span>彼得•蒂尔</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《倾城之恋》</p>
+                <span>张爱玲</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《靠谱》</p>
+                <span>大石哲之</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从0到1》</p>
+                <span>彼得•蒂尔</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《倾城之恋》</p>
+                <span>张爱玲</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《靠谱》</p>
+                <span>大石哲之</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从0到1》</p>
+                <span>彼得•蒂尔</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《倾城之恋》</p>
+                <span>张爱玲</span>
+            </li>
+			<li id="uli" class="action-btn">
+                <p>《芳华》</p>
+                <span>严歌苓</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从你的全世界路过》</p>
+                <span>张嘉佳</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从0到1》</p>
+                <span>彼得•蒂尔</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《倾城之恋》</p>
+                <span>张爱玲</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《靠谱》</p>
+                <span>大石哲之</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从0到1》</p>
+                <span>彼得•蒂尔</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《倾城之恋》</p>
+                <span>张爱玲</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《靠谱》</p>
+                <span>大石哲之</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《从0到1》</p>
+                <span>彼得•蒂尔</span>
+            </li>
+            <li id="uli" class="action-btn">
+                <p>《倾城之恋》</p>
+                <span>张爱玲</span>
+            </li>
+        </ul>
+    </div>
+    <div class="btn">
+        <a href="##">下一步</a>
+    </div>
+
+</body>
+<script src="https://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://cdn.bootcss.com/zepto/1.0rc1/zepto.min.js"></script>
+<script src="js/Sortable.js"></script>
+<script>
+//解决安卓端长按时出现浏览器选择打开问题
+document.oncontextmenu=function(e){
+    //或者return false;
+  e.preventDefault();
+};
+		var elementsld;
+		var touch={};
+		touch.current=0;
+		touch.lenght=4;
+		function move(elem,targetW,current){
+			elem.animate({
+			translate3d: targetW *current + "px,0,0"
+			},300,'steps',function(){
+			});
+		}
+
+        var sort = Sortable.create(document.getElementById('foo'), {
+          disabled: true,
+          animation: 150,
+		  onStart: function(){
+			Zepto("#foo").removeClass("animationframes")
+		  },
+          onEnd: function () {
+
+            sort.options.disabled = true
+            longtap = false
+			console.log(elementsld);
+			elementsld.css("background-color","");
+			touchmove = true
+
+          }
+        })
+
+		var longtap = false
+        jQuery('#foo li').on("taphold", function (e) {
+			elementsld = $(this);
+			elementsld.css("background-color","#46b99f");
+			longtap = true;
+			this.bind('contextmenu', function (e) {
+				e.preventDefault();
+			},false)
+        })
+        Zepto('#foo li').on('touchstart', function (e) {
+          setTimeout(function () {
+            if (longtap) {
+              var selectId = $('#foo li').attr("id")
+              document.getElementById(selectId).setAttribute("class", "animationframes");
+              document.getElementById("foo").setAttribute("class", "animationframes");
+              console.log('longtap')
+              sort.options.disabled = false
+              sort._onTapStart(e)
+            }
+          }, 1000);
+        })
+</script>
+</html>
+
+
+
