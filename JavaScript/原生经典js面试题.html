@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+
+  <script>
+    
+    // var i,j,k;
+    // for(i=0,j=0;i<10,j<6;i++,j++){
+    //   k=i+j;
+    // }
+    // console.log(k);
+    
+
+    // window.val = 1;
+    // var json={
+    //   val: 10,
+    //   dbl:function(){
+    //     this.val *=2;
+    //   }
+    // };
+
+    // json.dbl();
+    // var dbl = json.dbl;
+    // dbl();
+    // json.dbl.call(window);
+    // alert(window.val+json.val)
+
+    // var name = 'World';
+    // (function(){
+    //   if (typeof name === 'undefined') {
+    //     var name = 'Jack';
+    //     console.log('Goodbye' + name);
+
+    //   } else {
+    //     console.log('Hello' + name);
+    //   }
+    // })();
+
+
+      // for(var i = 0; i<10; ++i) {
+      //   setTimeout(function(){
+      //     console.log(i);
+      //   }, 0)
+      // }
+
+
+      function Foo(){
+        getName = function(){
+          alert(1);
+        }
+        return this;
+      }
+
+      Foo.getName = function() { alert(2);};
+      Foo.prototype.getName = function() {alert(3)};
+      
+      var getName = function() {alert(4);};
+      function getName() {
+        alert(5);
+      }
+
+      Foo.getName(); // 弹出2
+
+      getName(); // 弹出4
+      Foo().getName(); // 弹出1
+
+      new Foo.getName(); // 弹出2
+      new new Foo().getName();
+   </script>
+</body>
+</html>
