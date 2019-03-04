@@ -1,3 +1,5 @@
+//  转换时间秒
+
 function formatSeconds(value) {
   let secondTime = parseInt(value);// 秒
   let minuteTime = 0;// 分
@@ -24,3 +26,12 @@ function formatSeconds(value) {
   return result;
 }
 time = formatSeconds(stamp);
+
+
+//  获取url上的参数
+export const getUrlParam = (name) => {
+  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)');
+  const r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]);
+  return null;
+};
