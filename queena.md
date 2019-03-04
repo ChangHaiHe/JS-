@@ -10,6 +10,33 @@ width+height => padding => border => margin
   padding-box //width和height属性包括padding的大小，不包括border和margin
   inherit //指定box-sizing属性的值，应该从父元素继承
 
+
+#flex布局简单阐述原理，列举项目中的应用，是否存在兼容性问题，如何解决
+[原理]：浏览器的布局方式是：沿着主轴的方向依次排列，如果要换行，则沿着交叉轴的方向进行换行，每行代表一条轴线
+       flex布局是围绕父元素和轴来进行布局的
+       Flex 是 Flexible Box 的缩写，意为"弹性布局"，用来为盒状模型提供最大的灵活性，
+       采用flex布局的元素，称为flex容器，容器默认存在2根轴，水平的主轴和垂直的交叉轴，项目默认沿主轴的方向排列
+[案例]：水平垂直居中，一侧固定一侧
+      .container {
+        display: flex;
+        .sidebar {
+          width: 100px;
+        }
+        .content {
+          flex: 1;
+        }
+      }
+[兼容性]：通过加上各种前缀
+        webkit内核的浏览器，必需加上 -webkit 前缀
+        .box{
+          display: box;              /* OLD - Android 4.4- */
+          display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+          display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+          display: -ms-flexbox;      /* TWEENER - IE 10 */
+          display: -webkit-flex;     /* NEW - Chrome */
+          display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+        }
+
 #flex布局
   * display: flex;
   * display: -webkit-flex;  /* Safari */
@@ -79,6 +106,49 @@ width+height => padding => border => margin
       align-items: center;
       justify-content: center;
 
+#图片文字
+
+#什么是CSS预处理器并介绍相关特性
+less/sass/stylus (.less/.scss)
+css预处理器是用一种专门的编程语言，进行 Web 页面样式设计，然后再编译成正常的 CSS 文件，以供项目使用。CSS 预处理器为 CSS 增加一些编程的特性，无需考虑浏览器的兼容性问题
+[特性]：1⃣️less变量以@开头, sass变量以$开头
+        @orange: #feb914；
+        header {
+            background-color: @orange;
+        }
+
+        $orange: #feb914；
+        header {
+            background-color: $orange;
+        }
+      2⃣变量作用域， less以最近一次定义的为准，sass以距离最近的为准
+      3⃣️⃣️嵌套 
+      4⃣️混入
+        .roundedCorners(@radius: 5px){
+          -moz-border-radius: @radius;
+          -webkit-border-radius: @radius;
+          border-radius: @radius;
+        }
+        /*定义的类应用到另个一个类中*/
+        ＃header {
+          .roundedCorners; 
+        }
+        #footer {
+          .roundedCorners(10px);
+        }
+      5⃣️函数， less中不能自定义函数，sass可以
+        @function pxToRem($px) {
+          @return $px / 2;
+        }
+        body{
+          font-size: pxToRem(32px);
+        }
+
+#display:none与visibility:hidden的区别
+  display：none 不显示对应的元素，在文档布局中不再分配空间（回流+重绘）
+  visibility：hidden 隐藏对应元素，在文档布局中仍保留原来的空间（重绘）
+
+
 # 优雅降级，渐进增强
 渐进增强（Progressive Enhancement）：一开始就针对低版本浏览器进行构建页面，完成基本的功能，然后再针对高级浏览器进行效果、交互、追加功能达到更好的体验。
 
@@ -116,11 +186,49 @@ width+height => padding => border => margin
 
   initRem(document, window)
 
-#自适应布局
+#媒体查询
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="format-detection" content="telephone=no">
-  
+
+  CSS : @media only screen and (max-device-width:480px) {/css样式/}
+
+#怎么让Chrome支持小于12px 的文字？
+p{font-size:10px;-webkit-transform:scale(0.8);} //0.8是缩放比例
+
+#让页面里的字体变清晰，变细用CSS怎么做？
+-webkit-font-smoothing在window系统下没有起作用，但是在IOS设备上起作用-webkit-font-smoothing：antialiased是最佳的，灰度平滑。
+
+#js数据类型
+5种基本类型：Number，String，Boolean，Undefined，Null
+复杂数据类型：Object
+
+引用类型有：Object,Array,Function,Data等
+es6新增数据类型，symbol
+
+#基本类型和引用类型的区别
+1⃣️声明变量时不同的内存分配，
+  基本类型是存储在栈中的简单数据段，
+  引用类型是存储在堆中的对象。存储在变量处的是一个指针，指向存储对象的内存地址
+
+2⃣️基本类型按值访问，引用类型按引用访问（首先得到这个对象在堆内存中的地址，然后再按照这个地址去获得这个对象中的值）
+3⃣️复制变量时，基本类型是独立的，改变其中一个不影响另一个。引用类型复制的是内存地址，2个变量指向的是堆内存中的同一个对象，改变一个会影响另一个
+4⃣️参数传递不同，基本类型只是把变量里的值传递给参数，之后互不影响。
+  引用类型把对象在堆内存中的地址传递给这个变量，传递内存地址，函数对这个参数内部的修改会体现在外部
+
+#检测数据类型
+typeof, instanceof, constructor, Object.prototype.toString.call()
+
+typeof 'aa';  //string
+[] instanceof Array;  //true  (instanceof要求左边的运算数是一个对象，右边的运算数是对象类的名字或构造函数)
+[] instanceof Object;  //true 
+[].constructor(); //[]
+Object.prototype.toString.call([]); //[Object, Array]
+Object.prototype.toString.call({}); //[Object, Object]
+Object.prototype.toString.call(new Date()); //[Object, Date]
+Object.prototype.toString.call(new Function()); //[Object, Function]
+Object.prototype.toString.call(new RegExp()); //[Object, RegExp]
+
 
 #vue、react、angular
 * Vue.js
@@ -157,26 +265,58 @@ instance.constructor.prototype = instance.__proto__
 
 特点：JavaScript对象是通过引用来传递的，我们创建的每个新对象实体中并没有一份属于自己的原型副本。当我们修改原型时，与之相关的对象也会继承这一改变
 
+#原型，构造函数，实例
+[原型]：一个简单的对象，用于实现对象的属性继承
+[构造函数]：可以通过new来新建一个对象的函数
+[实例]：通过构造函数和new创建出来的对象，便是实例。实例通过_ptoto_指向原型，通过constructor指向构造函数
+实例._proto_ = 构造函数.prototype = 原型
+原型.constructor = 实例.constructor = 构造函数
+
 
 #javascript如何实现继承
-* 构造继承
-* 原型继承
-* 实例继承
-* 拷贝继承
+  es5: 主要通过prototype实现继承。在js中，继承通常指的是原型链继承，也就是通过指定原型，并可以通过原型链继承原型上的数学和方法
+  最优化[圣杯模式]
+  var inherit = (function(c, p){
+    var F = function(){};
+    return function(c, p){
+      F.prototype = p.prototype;
+      c.prototype = new F();
+      c.uber = p.prototype;
+      c.prototype.constructor = c;
+    }
+  })()
 
-  function Parent(){
-    this.name = 'wang';
-  }
+  es6: 通过class/extends 实现继承
 
-  function Child(){
-    this.age = 28;
-  }
-  Child.prototype = new Parent();//继承了Parent，通过原型
+#对象的拷贝
+  * 浅拷贝: 把父对象的属性，全部拷贝给子对象，实现继承
+          如果父对象的属性等于数组或另一个对象，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能
+          [Object.assign], [展开运算符]
+      function extendCopy(p) {
+        var c = {};
+        for(var i in p){
+          c[i] = p[i];
+        }
+        c.uber = p;
+        return c;
+      }
 
-  var demo = new Child();
-  alert(demo.age);
-  alert(demo.name); //得到被继承的属性
-
+  * 深拷贝: 就是能够实现真正意义上的数组和对象的拷贝 (jquery使用的就是这种继承方法)
+          (JSON.parse(JSON.stringify(obj)): 性能最快
+            具有循环引用的对象时，报错
+            当值为函数、undefined、或symbol时，无法拷贝)
+      function deepCopy(p, c){
+        var c = c || {};
+        for(var i in p){
+          if(typeof p[i] === 'object) {
+            c[i] = (p[i].constructor === Array) ? [] : {};
+            deepCopy[p[i], c[i]];
+          }else {
+            c[i] = p[i];
+          }
+        }
+        return c;
+      }
 
 #谈下对this对象的理解
 this总指向函数的直接调用者
@@ -218,6 +358,50 @@ sessionStorage和localStorage不会自动把数据发给服务器，仅在本地
 浏览器对加载到的资源（HTML、JS、CSS等）进行语法解析，建立相应的内部数据结构（如HTML的DOM）；
 载入解析到的资源文件，渲染页面，完成
 
+#15. 防抖与节流(lodash)
+防抖与节流函数是一种最常用的 高频触发优化方式，能对性能有较大的帮助。
+防抖 (debounce): 将多次高频操作优化为只在最后一次执行，通常使用的场景是：用户输入，只需再输入完成后做一次输入校验即可。
+  function debounce(fn, wait, immediate) {
+    let timer = null
+    return function() {
+      let args = arguments
+      let context = this
+
+      if (immediate && !timer) {
+        fn.apply(context, args)
+      }
+
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn.apply(context, args)
+      }, wait)
+    }
+  }
+
+节流(throttle): 每隔一段时间后执行一次，也就是降低频率，将高频操作优化成低频操作，通常使用场景: 滚动条事件 或者 resize 事件，通常每隔 100~500 ms执行一次即可。
+
+  function throttle(fn, wait, immediate) {
+    let timer = null
+    let callNow = immediate
+    
+    return function() {
+      let context = this,
+          args = arguments
+
+      if (callNow) {
+          fn.apply(context, args)
+          callNow = false
+      }
+
+      if (!timer) {
+        timer = setTimeout(() => {
+          fn.apply(context, args)
+          timer = null
+        }, wait)
+      }
+    }
+  }
+
 
 ## HTTP的几种请求方法用途
 get: 产生一个TCP数据包, 对于GET方式的请求，浏览器会把http header和data一并发送出去，服务器响应200（返回数据）；
@@ -250,6 +434,67 @@ HTTP的底层是TCP/IP。所以GET和POST的底层也是TCP/IP，也就是说，
 * 5XX: 服务器错误
     500 Internal Server Error 最常见的服务器端错误。
     503 Service Unavailable 服务器端暂时无法处理请求（可能是过载或维护）
+
+
+## es6/es7
+1⃣️let,const 块级作用域，不存在变量提升，var 代码块外也能调用，有变量提升(无论变量声明在何处，都会被视为声明在函数的最顶部，（不在函数内即在全局zuo yon）)
+2⃣️模版字符串 [``和${}, 换行不需要用反斜杆]
+3⃣️箭头函数和函数默认值
+  继承上下文this
+  省略return
+  返回仅有一个表达式的时候可以省略return
+4⃣️解构赋值
+5⃣️...展开运算符，取出对象/数组的某一部分或合并对象/数组
+6⃣️import/export
+  1.当用export default people导出时，就用 import people 导入（不带大括号）
+  2.一个文件里，有且只能有一个export default。但可以有多个export。
+  3.当用export name 时，就用import { name }导入（记得带上大括号）
+  4.当一个文件里，既有一个export default people, 又有多个export name 或者 export age时，导入就用 import people, { name, age } 
+  5.当一个文件里出现n多个 export 导出很多模块，导入时除了一个一个导入，也可以用import * as example
+7⃣️promise, 用同步的方法去写异步代码
+    setTimeout(function() {
+      console.log(1)
+    }, 0);
+    new Promise(function executor(resolve) {
+      console.log(2);
+      for( var i=0 ; i<10000 ; i++ ) {
+        i == 9999 && resolve();
+      }
+      console.log(3);
+    }).then(function() {
+      console.log(4);
+    });
+    console.log(5);
+
+    // 2，3，5，4，1
+8⃣️generator, yield: 暂停代码, next(): 继续执行代码
+    // 生成器
+    function *createIterator() {
+        yield 1;
+        yield 2;
+        yield 3;
+    }
+
+    // 生成器能像正规函数那样被调用，但会返回一个迭代器
+    let iterator = createIterator();
+
+    console.log(iterator.next().value); // 1
+    console.log(iterator.next().value); // 2
+    console.log(iterator.next().value); // 3
+
+9⃣️async/await: 是generator的语法糖， babel中是基于promise实现。
+  [generator需要加.next()后执行，async/await会在上一个执行完后，自动执行下一个]
+
+🔟
+
+#es7新特性：
+1⃣️Array.prototype.includes()方法，含2个参数，第二个指的是从哪个索引开始
+  ['a', 'b', 'c', 'd'].includes('b', 1);
+  ['a', 'b', 'c', 'd'].indexOf('b');
+  区别indexOf(), indexOf能取到索引位置，includes不行。 indexOf不能判断是否包含NaN,includes可以
+2⃣️求幂运算符（**），借鉴了python,ruby
+  3 ** 2  //9
+  Math.pow(3, 2)  //9
 
 
 ## 如何进行网站性能优化
@@ -324,3 +569,65 @@ Ajax的过程只涉及JavaScript、XMLHttpRequest和DOM。XMLHttpRequest是ajax�
       }
     }
   }
+
+#冒泡排序
+每次比较相邻的2个数，如果后一个比前一个小，换位置
+var arr = [3, 1, 4, 6, 5, 7, 2];
+function bubbleSort(arr){
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i+1] < arr[i]){
+        var temp;
+        temp = arr[i];
+        arr[i] = arr[i+1];
+        arr[i+1] = temp;
+    }
+  }
+  return arr;
+}
+
+bubbleSort(arr);
+
+
+#快速排序
+采用二分法，取出中间数，数组每次和重睑术
+var arr = [3, 1, 4, 6, 5, 7, 2];
+function quickSort(arr){
+  if(arr.length == 0){
+    return [];
+  }
+  var cIndex = Math.floor(arr.length/2);
+  var c = arr.splice(cIndex, 1);
+  var l = [];
+  var r = [];
+  for(var i = 0; i < arr.length; i++){
+    if(arr[i] < c){
+      l.push(arr[i]);
+    }else{
+      r.push(arr[i])
+    }
+  }
+  return quickSort(l).contact(c, quickSort(r));
+}
+
+quickSort(arr);
+
+#谈谈你对重构的理解
+在不改变外部行为的情况下,简化结构，添加可读性
+
+#什么样的前端代码是好的
+高复用低耦合，这样文件小，好维护，而且好扩展。
+
+#平时如何管理你的项目？
+先期团队必须确定好全局样式（globe.css），编码模式(utf-8) 等；
+
+编写习惯必须一致（例如都是采用继承式的写法，单样式都写成一行）；
+
+标注样式编写人，各模块都及时标注（标注关键样式调用的地方）；
+
+页面进行标注（例如 页面 模块 开始和结束）；
+
+CSS跟HTML 分文件夹并行存放，命名都得统一（例如style.css）；
+
+JS 分文件夹存放 命名以该JS功能为准的英文翻译。
+
+图片采用整合的 images.png png8 格式文件使用 - 尽量整合在一起使用方便将来的管理
