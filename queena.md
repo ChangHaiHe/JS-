@@ -106,8 +106,6 @@ width+height => padding => border => margin
       align-items: center;
       justify-content: center;
 
-#图片文字
-
 #什么是CSS预处理器并介绍相关特性
 less/sass/stylus (.less/.scss)
 css预处理器是用一种专门的编程语言，进行 Web 页面样式设计，然后再编译成正常的 CSS 文件，以供项目使用。CSS 预处理器为 CSS 增加一些编程的特性，无需考虑浏览器的兼容性问题
@@ -158,33 +156,34 @@ css预处理器是用一种专门的编程语言，进行 Web 页面样式设计
   em:相对父元素  rem:相对根元素  px:像素
 
 #rem.js
-  function initRem(doc, win) {
-    var html = document.getElementsByTagName("html")[0];
-    var fs = parseInt(getStyle(html, 'fontSize'));
+  <script>
+    function initRem(doc, win) {
+      var html = document.getElementsByTagName("html")[0];
+      var fs = parseInt(getStyle(html, 'fontSize'));
 
-    function getStyle(obj, attr) {
-      if (obj.currentStyle) {
-        return obj.currentStyle[attr];
+      function getStyle(obj, attr) {
+        if (obj.currentStyle) {
+          return obj.currentStyle[attr];
+        }
+        else {
+          return getComputedStyle(obj, false)[attr];
+        }
       }
-      else {
-        return getComputedStyle(obj, false)[attr];
+
+      function setUnitA() {
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 10 / fs * 100 + "%";
       }
+
+      var h = null;
+      window.addEventListener("resize", function () {
+        clearTimeout(h);
+        h = setTimeout(setUnitA, 300);
+      }, false);
+      setUnitA();
     }
 
-    function setUnitA() {
-      document.documentElement.style.fontSize =
-        document.documentElement.clientWidth / 10 / fs * 100 + "%";
-    }
-
-    var h = null;
-    window.addEventListener("resize", function () {
-      clearTimeout(h);
-      h = setTimeout(setUnitA, 300);
-    }, false);
-    setUnitA();
-  }
-
-  initRem(document, window)
+    initRem(document, window)
+  </script>
 
 #媒体查询
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -335,6 +334,132 @@ this总指向函数的直接调用者
 DOM事件流：同时支持两种事件模型：捕获型事件和冒泡型事件
 阻止冒泡：在W3c中，使用stopPropagation()方法；在IE下设置cancelBubble = true
 阻止捕获：阻止事件的默认行为，例如click - <a>后的跳转。在W3c中，使用preventDefault（）方法，在IE下设置window.event.returnValue = false
+
+#CSRF(跨站强求伪造)
+攻击者盗用了你的身份，以你的名义发送恶意请求.
+User（你）登录了某个信任A,  A将在登录成功的时候，在返回的响应头设置setCookies。以便下次再访问接口的时候得到验证身份。此时，在没有退出登录的情况下访问危险网站B，B悄悄访问A,因为浏览器在发送的时候给在请求头中加上cookie字段以供A的验证。所以，B就间接性的登录了A,冒用User的身份在A上进行操作。以上情况是在浏览器没有同源策略下产生
+预防措施：请求令牌验证（token验证）
+        请求头中的Referer验证（不推荐)
+
+#XSS(跨站脚本攻击)
+攻击者向网页中注入恶意脚本，当用户浏览网页时，脚本就会执行，进而影响用户，比如关不完的网站、盗取用户的 cookie 信息从而伪装成用户去操作，携带木马等等。
+预防措施: 消毒（对危险字符进行转义）
+        HttpOnly（防范XSS攻击者窃取Cookie数据）
+
+httpOnly:将重要的cookie标记为http only, 这样的话Javascript 中的document.cookie语句就不能获取到cookie了
+
+
+#什么是跨域
+只要协议、域名、端口有任何一个不同，就是跨域。
+http://www.baidu.com:80/
+[协议]：http
+[域名]：www.baidu.com
+[端口]：80
+
+#为什么不能跨域
+浏览器有一个同源策略，用来保护用户的安全，如果没有这个策略的话，a网站就可以操作b网站的页面，这样将会导致b网站的页面发生混乱，甚至信息被获取，包括服务器端发来的session。
+
+#跨域的解决方案
+1⃣️jsonp, 浏览器是可以引入不同域下的JS文件，利用这个特性，来实现跨域，
+  * 只支持get请求。【支持老式浏览器，可以向不支持cors的网站请求数据】
+  [1]直接在a.com页面，添加一个script标签，src属性为b网站的页面url，并且传入一个callback参数
+  <script>
+    function dosomething(jsonData){}
+  </script>
+  <script src="http://www.b.com/handlerData.php?callback=dosomething"></script>
+  [2]b网站的handlerData.php，实际做的操作就是：生成一段可执行的JS代码，调用你传入的dosomething函数。
+
+2⃣️使用cors实现跨域（跨域资源共享），它允许浏览器向跨源服务器，发出XMLHttpRequest请求，从而克服了AJAX只能同源使用的限制
+  * 支持所有类型的http请求
+  要在服务器端的response header里面加一个 Access-Control-Allow-Origin: 指定域名|| ( 表示所有域名都可以跨域), 浏览器端便可以发起post的跨域请求
+
+3⃣️代理proxy, 请求的时候还是用前端的域名，然后有个东西帮我们把这个请求转发到真正的后端域名上，不就避免跨域了吗
+  [nginx代理]：
+    server{
+      # 监听9099端口
+      listen 9099;          
+      # 域名是localhost
+      server_name localhost;
+        #凡是localhost:9099/api这个样子的，都转发到真正的服务端地址http://localhost:9871 
+          location ^~ /api {
+            proxy_pass http://localhost:9871;
+        }    
+    }
+  [前端开发时的dev-server代理]
+    webpackConfig.devServer = {
+      host: '0.0.0.0', //加上这个配置才能让别人访问你的本地服务器
+      contentBase: './dist', //本地服务器所加载的页面所在的目录
+      port: 8888,
+      historyApiFallback: true, //不跳转
+      inline: true, //实时刷新
+      //代理到json-server的端口，模拟后端接口
+      proxy: {
+        '/api/*': {
+          target: 'http://localhost:8787',
+          secure: false,
+          changeOrigin: true,
+          pathRewrite: {
+            '^/api/': '/'
+          },
+        }
+      }
+    };
+
+4⃣️iframe + form
+在新的iframe中使用from来提交数据,需要后端配合,通过iframe的load事件，返回结果处理不是很清晰
+[后端接口代码]：
+  // 处理成功失败返回格式的工具
+    const {successBody} = require('../utli')
+    class CrossDomain {
+      static async iframePost (ctx) {
+        let postData = ctx.request.body
+        console.log(postData)
+        ctx.body = successBody({postData: postData}, 'success')
+      }
+    }
+    module.exports = CrossDomain
+[前端代码]：
+    const requestPost = ({url, data}) => {
+      // 首先创建一个用来发送数据的iframe.  
+      const iframe = document.createElement('iframe')
+      iframe.name = 'iframePost'
+      iframe.style.display = 'none'
+      document.body.appendChild(iframe)
+      const form = document.createElement('form')
+      const node = document.createElement('input')
+      // 注册iframe的load事件处理程序,如果你需要在响应返回时执行一些操作的话.
+      iframe.addEventListener('load', function () {
+        console.log('post success')
+      })
+
+      form.action = url
+      // 在指定的iframe中执行form
+      form.target = iframe.name
+      form.method = 'post'
+      for (let name in data) {
+        node.name = name
+        node.value = data[name].toString()
+        form.appendChild(node.cloneNode())
+      }
+      // 表单元素需要添加到主文档中.
+      form.style.display = 'none'
+      document.body.appendChild(form)
+      form.submit()
+
+      // 表单提交后,就可以删除这个表单,不影响下次的数据发送.
+      document.body.removeChild(form)
+    }
+    // 使用方式
+    requestPost({
+      url: 'http://localhost:9871/api/iframePost',
+      data: {
+        msg: 'helloIframePost'
+      }
+    })
+
+
+
+
 
 
 ## 请描述一下 cookies，sessionStorage 和 localStorage 的区别？
